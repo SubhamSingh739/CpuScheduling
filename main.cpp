@@ -14,9 +14,8 @@ class CpuSchedule
         void SjfP(); //Shortest job First Algorithm with Preemption
         void SjfNp(); //Shortest job First Algorithm with NonPreemption
         void RoundRobin(); //Round Robin Algorithm
-        void PriorityRoundRobin();
-        void WRR();
-        void test();
+        void PriorityRoundRobin();//Priority Round Robin Algorithm
+        void WRR(); // Weighted Round Robin Algorithm
 };
 
 void   CpuSchedule::Getdata(){
@@ -40,27 +39,21 @@ void CpuSchedule::Fcfs(){
         cout<<B[i] << endl;;
     }
     Wt[0]=0;// waiting time for first process is 0
-
     for(i=1;i<n;i++)
     {
         Wt[i]=B[i-1]+Wt[i-1];//calculating waiting time for each process
 
     }
-
     cout<<"\nProcess\t\tBurst Time\tWaiting Time\tTurnaround Time";
-
-    //Calculating Total Weighting Time and Total Turn around Time
-    for(i=0;i<n;i++)
+    for(i=0;i<n;i++)//Calculating Total Weighting Time and Total Turn around Time
     {
         Awt += Wt[i];
         tat[i] = B[i]+Wt[i];
         Atat += tat[i];\
          cout<<"\nP["<<processNumber[i]<<"]"<<"\t\t"<<B[i]<<"\t\t"<<Wt[i]<<"\t\t"<<tat[i];
     }
-
     Awt=Awt/n; // Average Waiting Time
     Atat=Atat/n; // Average Turnaround Time
-
     cout<<"\n\nAverage Waiting Time:"<<Awt;
     cout<<"\nAverage Turnaround Time:"<<Atat;
 }
@@ -68,16 +61,13 @@ void CpuSchedule::Sjf(){
     int i,j,temp,B[10]; //here B[] stores the sorted burst time of process.
     Awt=0.0;
     Atat=0.0;
-
     for(i=0;i<n;i++)
     {
     B[i]=Bu[i];
     cout<<"\nBurst time for process p["<<processNumber[i]<<"]= ";
     cout<<B[i];
     }
-
-    //sorting burst time in ascending order using selection sort
-    for(i=0;i<n;i++)
+    for(i=0;i<n;i++)//sorting burst time in ascending order using selection sort
     {
         position=i;
         for(j=i+1;j<n;j++)
@@ -85,7 +75,6 @@ void CpuSchedule::Sjf(){
             if(B[j]<B[position])
                 position=j;
         }
-
         temp=B[i];
         B[i]=B[position];
         B[position]=temp;
@@ -100,19 +89,15 @@ void CpuSchedule::Sjf(){
         Wt[i]=B[i-1]+Wt[i-1];//calculating waiting time for each process
     }
     cout<<"\n\nProcess\t\tBurst Time\tWaiting Time\tTurnaround Time";
-
-    //Calculating Total Weighting Time and Total Turn around Time
-    for(i=0;i<n;i++)
+    for(i=0;i<n;i++)//Calculating Total Weighting Time and Total Turn around Time
     {
         Awt+=Wt[i];
         tat[i]= B[i]+Wt[i];
         Atat += tat[i];\
         cout<<"\nP["<<processNumber[i]<<"]"<<"\t\t"<<B[i]<<"\t\t"<<Wt[i]<<"\t\t"<<tat[i];
     }
-
     Awt/=n; // Average Waiting Time
     Atat/=n; // Average Turnaround Time
-
     cout<<"\n\nAverage Waiting Time:"<<Awt;
     cout<<"\nAverage Turnaround Time:"<<Atat;
 }
@@ -129,7 +114,6 @@ void CpuSchedule::Priority(){
     cout<<" Enter the priority for process P"<<processNumber[i]<<"= ";
     cin>>P[i];
     }
-
     for(i=0;i<n;i++)
     {
         position=i;
@@ -157,19 +141,15 @@ void CpuSchedule::Priority(){
         Wt[i]=B[i-1]+Wt[i-1];//calculating waiting time for each process
     }
     cout<<"\n\nProcess\t\tBurst Time\tWaiting Time\tTurnaround Time";
-
-    //Calculating Total Weighting Time and Total Turn around Time
-    for(i=0;i<n;i++)
+    for(i=0;i<n;i++)//Calculating Total Weighting Time and Total Turn around Time
     {
         Awt+=Wt[i];
         tat[i]= B[i]+Wt[i];
         Atat += tat[i];
         cout<<"\nP["<<processNumber[i]<<"]"<<"\t\t"<<B[i]<<"\t\t"<<Wt[i]<<"\t\t"<<tat[i];
     }
-
     Awt/=n; // Average Waiting Time
     Atat/=n; // Average Turnaround Time
-
     cout<<"\n\nAverage Waiting Time:"<<Awt;
     cout<<"\nAverage Turnaround Time:"<<Atat;
 }
@@ -191,7 +171,6 @@ void CpuSchedule::RoundRobin(){
     cin>>quanta;
 
     cout<<"\n\nProcess\t\tBurst Time\tWaiting Time\tTurnaround Time";
-
     for(time=0,i=0;remain!=0;)
     {
         if(Rt[i]<=quanta && Rt[i]>0)
@@ -224,7 +203,6 @@ void CpuSchedule::RoundRobin(){
     }
     Awt/=n; // Average Waiting Time
     Atat/=n; // Average Turnaround Time
-
     cout<<"\n\nAverage Waiting Time:"<<Awt;
     cout<<"\nAverage Turnaround Time:"<<Atat;
 }
@@ -243,19 +221,15 @@ void CpuSchedule::PriorityRoundRobin(){
     cin>>A[i];
     cin>>P[i];
     }
-    cout<<"\nEnter Base Time Quanta size"<<endl;
-    cin>>quanta;
-
     cout<<"\n\nProcess\t\tBurst Time\tWaiting Time\tTurnaround Time";
-
     for(time=0,i=0;remain!=0;)
     {
         if(P[i]==high)
-            quanta*=2;//high priority task are given twice amount of quanta
+            quanta=3;//high priority task are given 3 unit quanta
         else if(P[i]==mid)
-            quanta*=1.5;//mid priority task are given 1.5 times of quanta
+            quanta=2;//mid priority task are given 2 unit quanta
         else if(P[i]==low)
-            quanta*=1; //low priority task get quanta as defined initially
+            quanta=1; //low priority task are give 1 unit quanta
 
         if(Rt[i]<=quanta && Rt[i]>0)
         {
@@ -287,7 +261,6 @@ void CpuSchedule::PriorityRoundRobin(){
     }
     Awt/=n; // Average Waiting Time
     Atat/=n; // Average Turnaround Time
-
     cout<<"\n\nAverage Waiting Time:"<<Awt;
     cout<<"\nAverage Turnaround Time:"<<Atat;
 }
@@ -323,7 +296,6 @@ void CpuSchedule::WRR()
                 if(B[j]==0) continue;
                 if (i!=j)
                     Wt[j]=Wt[j]+quanta;
-
             }
             x=(i+1)%n;
             if (weight[i]>=weight[x]) i--;
@@ -344,11 +316,9 @@ void CpuSchedule::WRR()
     }
     Awt=Awt/n;
     Atat=Atat/n;
-
     cout<<"\naverage waiting time="<<Awt;
     cout<<"\naverage turnaround time="<<Atat;
 }
-
 int main()
 {
     int c;
